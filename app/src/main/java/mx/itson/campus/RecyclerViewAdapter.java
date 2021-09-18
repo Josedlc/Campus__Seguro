@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +28,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,9 +38,12 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
     private Context context;
     private ArrayList<Item> listItems;
+
     TextView txtHora, txtDia, txtLugar;
     ImageView btnCerrar;
     Button btnRegistrar;
+    public static Socket socket;
+    private Boolean servidor;
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CircleImageView ivFoto;
 
@@ -53,9 +61,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         @Override
         public void onClick(View view) {
+
+
+
             switch (view.getId()){
                 case R.id.btnCerrar:
-                    InitActivity.ListItems.remove(getAdapterPosition());
+                   InitActivity.ListItems.remove(getAdapterPosition());
+
                     notifyItemRemoved(getAdapterPosition());
 
                     if(listItems.size() == 0){
@@ -198,5 +210,6 @@ btnFoto.setOnClickListener(new View.OnClickListener() {
 
         popupWindow.showAtLocation(new LinearLayout(context), Gravity.BOTTOM,0,0);
     }
+
 
 }
